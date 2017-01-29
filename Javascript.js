@@ -77,3 +77,54 @@ var printWeatherInfoCurLocation = function() {
     console.log(getWeatherInfo(openWeatherMapInfo));
   });
 };
+
+var weatherBackgroundDictionary = {
+  "thunderstorm": "http://wtop.com/wp-content/uploads/2014/07/355929-1865x1254.jpg",
+  "drizzle": "http://www.trbimg.com/img-579cb259/turbine/cgnews-heavy-rain-today-and-sunday-20160730",
+  "rain": "http://www.smart-homes.co.uk/wp-content/uploads/2015/11/rain_drops_splashes_heavy_rain_dullness_bad_weather_60638_2560x1024.jpg",
+  "snow": "http://vignette4.wikia.nocookie.net/phobia/images/a/aa/Snow.jpg/revision/latest?cb=20161109045734",
+  "clear": "http://openwalls.com/image/14916/clear_day_of_summer_2560x960.jpg"
+};
+
+var getWeatherBackgroundKey = function(weatherInfo) {
+  "use strict";
+  
+  if ((weatherInfo.ConditionsID >= 200) && (weatherInfo.ConditionsID < 300)) {
+    return "thunderstorm";
+  } else if ((weatherInfo.ConditionsID >= 300) && (weatherInfo.ConditionsID < 400)) {
+    return "drizzle";
+  } else if ((weatherInfo.ConditionsID >= 500) && (weatherInfo.ConditionsID < 600)) {
+    return "rain";
+  } else if ((weatherInfo.ConditionsID >= 600) && (weatherInfo.ConditionsID < 700)) {
+    return "snow";
+  } else if (weatherInfo.ConditionsID === 800) {
+    return "clear";
+  } else {
+    return null;
+  }
+};
+
+var getTextColor = function(weatherBackgroundType) {
+  "use strict";
+  
+  switch (weatherBackgroundType)
+    {
+    case "thunderstorm":
+        return "white";
+        
+      case "drizzle":
+        return "white";
+        
+      case "rain":
+        return "white";
+        
+      case "snow":
+        return "black";
+        
+      case "clear":
+        return "black";
+        
+      default:
+        return "black";
+    }
+};
