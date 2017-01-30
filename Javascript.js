@@ -14,13 +14,13 @@ var currentWeatherAPI = function(lat, lon, responseCallback) {
   jQuery.getJSON(openWeatherMapRequest, null, responseCallback);
 };
              
-var printCurrentWeather = function() {
-  "use strict";
-  
-  currentWeatherAPI(37, -117, function (data) {
-    console.log(data);
-  });
-};
+//var printCurrentWeather = function() {
+//  "use strict";
+//  
+//  currentWeatherAPI(37, -117, function (data) {
+//    console.log(data);
+//  });
+//};
 
 var getCurrentLocation = function(positionCallback) {
   "use strict";
@@ -31,14 +31,14 @@ var getCurrentLocation = function(positionCallback) {
   
 };
 
-var printCurrentLocation = function() {
-  "use strict";
-  
-  getCurrentLocation(function(position) {
-    console.log(position.coords.latitude);
-  });
-  
-};
+//var printCurrentLocation = function() {
+//  "use strict";
+//  
+//  getCurrentLocation(function(position) {
+//    console.log(position.coords.latitude);
+//  });
+//  
+//};
 
 var getWeatherAtCurrentLocation = function(successCallback) {
   "use strict";
@@ -70,13 +70,13 @@ var getWeatherInfo = function(openWeatherMapInfo) {
   return weatherInfo;
 };
 
-var printWeatherInfoCurLocation = function() {
-  "use strict";
-  
-  getWeatherAtCurrentLocation(function (openWeatherMapInfo) {
-    console.log(getWeatherInfo(openWeatherMapInfo));
-  });
-};
+//var printWeatherInfoCurLocation = function() {
+//  "use strict";
+//  
+//  getWeatherAtCurrentLocation(function (openWeatherMapInfo) {
+//    console.log(getWeatherInfo(openWeatherMapInfo));
+//  });
+//};
 
 var weatherBackgroundDictionary = {
   "thunderstorm": "http://wtop.com/wp-content/uploads/2014/07/355929-1865x1254.jpg",
@@ -128,3 +128,58 @@ var getTextColor = function(weatherBackgroundType) {
         return "black";
     }
 };
+
+var TemperatureUnit = {
+  FAHRENHEIT: "F",
+  CELSIUS: "C"
+};
+
+var getTemp = function(tempUnit, temp) {
+  "use strict";
+  
+  switch (tempUnit) {
+    case TemperatureUnit.CELSIUS:
+      return temp - 273.15;
+      
+    case TemperatureUnit.FAHRENHEIT:
+      return ((temp - 273.15)*(9/5)) + 32;
+      
+    default:
+      return null;
+  }
+};
+
+var capitalizeFirstLetter = function(str) {
+  "use strict";
+  
+  return str[0].toUpperCase() + str.substring(1);
+};
+
+var currentWeatherInfo = null;
+var currentDisplaySettings = {
+  "TempUnit": TemperatureUnit.CELSIUS
+};
+
+var displayWeather = function(currentWeatherObj) {
+  "use strict";
+  
+  if (currentWeatherObj !== null) {
+    var tempToDisplay = Math.round(getTemp(currentDisplaySettings.TempUnit, currentWeatherObj.Temperature));
+    tempToDisplay += "°" + currentDisplaySettings.TempUnit;
+    
+    $("#temperature").html(tempToDisplay);
+    $("#conditionsText").html(capitalizeFirstLetter(currentWeatherObj.ConditionsDescription));
+    
+    $("#location").html(currentWeatherObj.CityName);
+  }
+};
+
+$(document).ready(function() {
+  "use strict";
+  
+  getWeatherAtCurrentLocation(function(openWeatherMapObj) {
+    currentWeatherInfo = getWeatherInfo(openWeatherMapObj);
+    
+    displayWeather(currentWeatherInfo);
+  });
+});
