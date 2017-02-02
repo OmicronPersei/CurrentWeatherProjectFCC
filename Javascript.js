@@ -13,14 +13,6 @@ var currentWeatherAPI = function(lat, lon, responseCallback) {
   
   jQuery.getJSON(openWeatherMapRequest, null, responseCallback);
 };
-             
-//var printCurrentWeather = function() {
-//  "use strict";
-//  
-//  currentWeatherAPI(37, -117, function (data) {
-//    console.log(data);
-//  });
-//};
 
 var getCurrentLocation = function(positionCallback) {
   "use strict";
@@ -30,15 +22,6 @@ var getCurrentLocation = function(positionCallback) {
   }
   
 };
-
-//var printCurrentLocation = function() {
-//  "use strict";
-//  
-//  getCurrentLocation(function(position) {
-//    console.log(position.coords.latitude);
-//  });
-//  
-//};
 
 var getWeatherAtCurrentLocation = function(successCallback) {
   "use strict";
@@ -69,14 +52,6 @@ var getWeatherInfo = function(openWeatherMapInfo) {
   
   return weatherInfo;
 };
-
-//var printWeatherInfoCurLocation = function() {
-//  "use strict";
-//  
-//  getWeatherAtCurrentLocation(function (openWeatherMapInfo) {
-//    console.log(getWeatherInfo(openWeatherMapInfo));
-//  });
-//};
 
 var getWeatherBackgroundKey = function(weatherInfo) {
   "use strict";
