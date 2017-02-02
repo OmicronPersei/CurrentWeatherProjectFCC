@@ -1,0 +1,49 @@
+body {
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.thunderstormBackgroundStyle {
+  background-image: url("http://wtop.com/wp-content/uploads/2014/07/355929-1865x1254.jpg");
+}
+
+.drizzleBackgroundStyle {
+  background-image: url("http://www.trbimg.com/img-579cb259/turbine/cgnews-heavy-rain-today-and-sunday-20160730");
+}
+
+.rainBackgroundStyle {
+  background-image: url("http://www.smart-homes.co.uk/wp-content/uploads/2015/11/rain_drops_splashes_heavy_rain_dullness_bad_weather_60638_2560x1024.jpg");
+}
+
+.snowBackgroundStyle {
+  background-image: url("http://vignette4.wikia.nocookie.net/phobia/images/a/aa/Snow.jpg/revision/latest?cb=20161109045734");
+}
+
+.cloudsBackgroundStyle {
+  background-image: url("http://openwalls.com/image/14916/clear_day_of_summer_2560x960.jpg");
+}
+
+.clearBackgroundStyle {
+  background-image: url("https://flythesevenseas.files.wordpress.com/2013/12/img_1345.jpg");
+}
+
+.mainBodyContent {
+  margin: 10% auto;
+  padding: 50px;
+  
+  width: 700px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.mainBodyContent > h1, h2, h3 {
+  margin: 20px;
+}
+
+.mainBodyContent > .whiteText {
+  color: white;
+}
+
+.mainBodyContent > .blackText  {
+  color: black;
+}

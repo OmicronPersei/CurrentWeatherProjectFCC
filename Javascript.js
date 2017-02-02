@@ -78,14 +78,6 @@ var getWeatherInfo = function(openWeatherMapInfo) {
 //  });
 //};
 
-var weatherBackgroundDictionary = {
-  "thunderstorm": "http://wtop.com/wp-content/uploads/2014/07/355929-1865x1254.jpg",
-  "drizzle": "http://www.trbimg.com/img-579cb259/turbine/cgnews-heavy-rain-today-and-sunday-20160730",
-  "rain": "http://www.smart-homes.co.uk/wp-content/uploads/2015/11/rain_drops_splashes_heavy_rain_dullness_bad_weather_60638_2560x1024.jpg",
-  "snow": "http://vignette4.wikia.nocookie.net/phobia/images/a/aa/Snow.jpg/revision/latest?cb=20161109045734",
-  "clear": "http://openwalls.com/image/14916/clear_day_of_summer_2560x960.jpg"
-};
-
 var getWeatherBackgroundKey = function(weatherInfo) {
   "use strict";
   
@@ -99,6 +91,8 @@ var getWeatherBackgroundKey = function(weatherInfo) {
     return "snow";
   } else if (weatherInfo.ConditionsID === 800) {
     return "clear";
+  } else if (weatherInfo.ConditionsID > 800) {
+    return "clouds";
   } else {
     return null;
   }
@@ -122,6 +116,9 @@ var getTextColor = function(weatherBackgroundType) {
         return "black";
         
       case "clear":
+        return "black";
+        
+      case "clouds":
         return "black";
         
       default:
@@ -164,13 +161,26 @@ var displayWeather = function(currentWeatherObj) {
   "use strict";
   
   if (currentWeatherObj !== null) {
-    var tempToDisplay = Math.round(getTemp(currentDisplaySettings.TempUnit, currentWeatherObj.Temperature));
+    
+    var tempToDisplay = Math.round(getTemp(currentDisplaySettings.TempUnit, currentWeatherObj.Temperature), -1);
+    tempToDisplay = Number(tempToDisplay).toFixed(1);
     tempToDisplay += "°" + currentDisplaySettings.TempUnit;
     
     $("#temperature").html(tempToDisplay);
     $("#conditionsText").html(capitalizeFirstLetter(currentWeatherObj.ConditionsDescription));
     
     $("#location").html(currentWeatherObj.CityName);
+    
+    var weatherBackgroundKey = getWeatherBackgroundKey(currentWeatherObj);
+    var weatherBackgroundStyleClass = weatherBackgroundKey + "BackgroundStyle";
+    $("body").removeClass();
+    $("body").addClass(weatherBackgroundStyleClass);
+    
+    var mainBodyContentChildren = $(".mainBodyContent").children();
+    var textStyleClass = getTextColor(weatherBackgroundKey) + "Text";
+    mainBodyContentChildren.removeClass();
+    mainBodyContentChildren.addClass(textStyleClass);
+    
   }
 };
 
