@@ -73,32 +73,25 @@ var getWeatherBackgroundKey = function(weatherInfo) {
   }
 };
 
+var textColorDict = {
+  "thunderstorm": "white",
+  "drizzle": "white",
+  "rain": "white",
+  "snow": "black",
+  "clear": "black",
+  "clouds": "black"
+};
+
 var getTextColor = function(weatherBackgroundType) {
   "use strict";
   
-  switch (weatherBackgroundType)
-    {
-    case "thunderstorm":
-        return "white";
-        
-      case "drizzle":
-        return "white";
-        
-      case "rain":
-        return "white";
-        
-      case "snow":
-        return "black";
-        
-      case "clear":
-        return "black";
-        
-      case "clouds":
-        return "black";
-        
-      default:
-        return "black";
-    }
+  var textColor = textColorDict[weatherBackgroundType];
+  
+  if (textColor !== undefined) {
+      return textColor;
+  } else {
+    return "black";
+  }
 };
 
 var TemperatureUnit = {
@@ -132,16 +125,45 @@ var currentDisplaySettings = {
   "TempUnit": TemperatureUnit.CELSIUS
 };
 
-var displayWeather = function(currentWeatherObj) {
+var setActiveTempItem = function(displaySettings) {
+  "use strict";
+  
+  $("#settingsDropDown>.temperatureItem").removeClass("active");
+  
+  switch (displaySettings.TempUnit) {
+    case TemperatureUnit.CELSIUS:
+      $("#settingsDropDown>.temperatureItem#celsius").addClass("active");
+      break;
+      
+    case TemperatureUnit.FAHRENHEIT:
+      $("#settingsDropDown>.temperatureItem#fahrenheit").addClass("active");
+      break;
+  }
+};
+
+var displayTemperature = function(currentWeatherObj, displaySettings) {
   "use strict";
   
   if (currentWeatherObj !== null) {
     
-    var tempToDisplay = Math.round(getTemp(currentDisplaySettings.TempUnit, currentWeatherObj.Temperature), -1);
+    var tempToDisplay = Math.round(getTemp(displaySettings.TempUnit, currentWeatherObj.Temperature), -1);
     tempToDisplay = Number(tempToDisplay).toFixed(1);
     tempToDisplay += "°" + currentDisplaySettings.TempUnit;
     
     $("#temperature").html(tempToDisplay);
+    
+    setActiveTempItem(displaySettings);
+  }
+};
+
+var displayWeather = function(currentWeatherObj, displaySettings) {
+  "use strict";
+  
+  if (currentWeatherObj !== null) {
+    
+    displayTemperature(currentWeatherObj, displaySettings);
+    
+    
     $("#conditionsText").html(capitalizeFirstLetter(currentWeatherObj.ConditionsDescription));
     
     $("#location").html(currentWeatherObj.CityName);
@@ -152,6 +174,7 @@ var displayWeather = function(currentWeatherObj) {
     $("body").addClass(weatherBackgroundStyleClass);
     
     var mainBodyContentChildren = $(".mainBodyContent").children();
+    
     var textStyleClass = getTextColor(weatherBackgroundKey) + "Text";
     mainBodyContentChildren.removeClass();
     mainBodyContentChildren.addClass(textStyleClass);
@@ -159,12 +182,42 @@ var displayWeather = function(currentWeatherObj) {
   }
 };
 
+var settingsClickHandler = function(e) {
+  "use strict";
+  
+  var parent = e.target.parentElement;
+  
+  if (e.target && parent.matches(".settingsItem")) {
+    if (parent.matches(".temperatureItem")) {
+      
+      if (parent.matches("#celsius")) {
+        currentDisplaySettings.TempUnit = TemperatureUnit.CELSIUS;
+      } else if (parent.matches("#fahrenheit")) {
+        currentDisplaySettings.TempUnit = TemperatureUnit.FAHRENHEIT;
+      }
+      
+      displayTemperature(currentWeatherInfo, currentDisplaySettings);
+    }
+    
+  }
+};
+
+var setupSettingsEventHandler = function() {
+  "use strict";
+  
+  document.getElementById("settingsDropDown").addEventListener("click", settingsClickHandler);
+};
+
 $(document).ready(function() {
   "use strict";
+  
+  setupSettingsEventHandler();
   
   getWeatherAtCurrentLocation(function(openWeatherMapObj) {
     currentWeatherInfo = getWeatherInfo(openWeatherMapObj);
     
-    displayWeather(currentWeatherInfo);
+    displayWeather(currentWeatherInfo, currentDisplaySettings);
   });
+  
+  
 });
