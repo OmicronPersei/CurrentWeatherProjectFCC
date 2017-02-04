@@ -16,11 +16,20 @@ var currentWeatherAPI = function(lat, lon, responseCallback) {
 
 var getCurrentLocation = function(positionCallback) {
   "use strict";
+  //http://ipinfo.io/json
   
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(positionCallback);
-  }
-  
+  jQuery.getJSON("http://ipinfo.io/json", null, function(response) {
+    var positionPair = response.loc.split(",");
+    
+    var position = {
+      "coords": {
+        "latitude": positionPair[0],
+        "longitude": positionPair[1]
+      }
+    };
+    
+    positionCallback(position);
+  });
 };
 
 var getWeatherAtCurrentLocation = function(successCallback) {
@@ -162,8 +171,6 @@ var displayWeather = function(currentWeatherObj, displaySettings) {
   if (currentWeatherObj !== null) {
     
     displayTemperature(currentWeatherObj, displaySettings);
-    
-    
     $("#conditionsText").html(capitalizeFirstLetter(currentWeatherObj.ConditionsDescription));
     
     $("#location").html(currentWeatherObj.CityName);
