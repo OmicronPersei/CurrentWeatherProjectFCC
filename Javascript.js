@@ -173,18 +173,23 @@ var displayWeather = function(currentWeatherObj, displaySettings) {
     displayTemperature(currentWeatherObj, displaySettings);
     $("#conditionsText").html(capitalizeFirstLetter(currentWeatherObj.ConditionsDescription));
     
-    $("#location").html(currentWeatherObj.CityName);
+    $("#location").html("Current weather conditions in " + currentWeatherObj.CityName);
     
     var weatherBackgroundKey = getWeatherBackgroundKey(currentWeatherObj);
     var weatherBackgroundStyleClass = weatherBackgroundKey + "BackgroundStyle";
     $("body").removeClass();
     $("body").addClass(weatherBackgroundStyleClass);
     
-    var mainBodyContentChildren = $(".mainBodyContent").children();
+    var mainBodyContentChildren = $(".mainBodyContent>.panel-body").children();
     
     var textStyleClass = getTextColor(weatherBackgroundKey) + "Text";
     mainBodyContentChildren.removeClass();
+    mainBodyContentChildren.addClass("panel-body");
     mainBodyContentChildren.addClass(textStyleClass);
+    
+    $("#location").removeClass();
+    $("#location").addClass(textStyleClass);
+    
     
   }
 };
