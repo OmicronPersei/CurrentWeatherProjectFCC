@@ -27,6 +27,26 @@ body {
   background-image: url("https://flythesevenseas.files.wordpress.com/2013/12/img_1345.jpg");
 }
 
+.overcastBackgroundStyle {
+  background-image: url("https://s-media-cache-ak0.pinimg.com/originals/b4/a7/a7/b4a7a710c23e1188df815af83247004f.jpg");
+}
+
+.mistBackgroundStyle {
+  background-image: url("http://eskipaper.com/images/mist-4.jpg");
+}
+
+.hazeBackgroundStyle {
+  background-image: url("http://kingofwallpapers.com/haze/haze-010.jpg");
+}
+
+.fogBackgroundStyle {
+  background-image: url("http://kingofwallpapers.com/fog/fog-022.jpg");
+}
+
+.unknownBackgroundStyle {
+  background-color: black;
+}
+
 .navbar {
   min-height: 30px;
 }

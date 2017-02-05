@@ -73,12 +73,20 @@ var getWeatherBackgroundKey = function(weatherInfo) {
     return "rain";
   } else if ((weatherInfo.ConditionsID >= 600) && (weatherInfo.ConditionsID < 700)) {
     return "snow";
+  } else if (weatherInfo.ConditionsID === 701) {
+    return "mist";
+  } else if (weatherInfo.ConditionsID === 721) {
+    return "haze";
+  } else if (weatherInfo.ConditionsID === 741) {
+    return "fog";
   } else if (weatherInfo.ConditionsID === 800) {
     return "clear";
-  } else if (weatherInfo.ConditionsID > 800) {
+  } else if ((weatherInfo.ConditionsID >= 801) && (weatherInfo.ConditionsID < 804)) {
     return "clouds";
+  } else if (weatherInfo.ConditionsID === 804) {
+    return "overcast";
   } else {
-    return null;
+    return "unknown";
   }
 };
 
@@ -88,7 +96,12 @@ var textColorDict = {
   "rain": "white",
   "snow": "black",
   "clear": "black",
-  "clouds": "black"
+  "clouds": "black",
+  "mist": "white",
+  "haze": "white",
+  "fog": "black",
+  "overcast": "white",
+  "unknown": "white"
 };
 
 var getTextColor = function(weatherBackgroundType) {
